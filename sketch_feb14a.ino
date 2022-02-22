@@ -1,5 +1,5 @@
 #include <Arduino_AVRSTL.h>
-
+bool flag = false;
 class Control
 {
   int pinLed;
@@ -17,7 +17,7 @@ class Control
     analogWrite(pinLed, brigthness);
   }
   void setSmooBrigth(int brigth, int speedSmoo = 30){
-    if ((brigth < 0 || brigth > 255) && (brigth == brigthness)){
+    if ((brigth < 0 || brigth > 255) || (brigth == brigthness)){
       return;
     }
     while(brigthness != brigth){
@@ -26,19 +26,25 @@ class Control
       analogWrite(pinLed, brigthness);
     }
   }
-  void selectMode(){
+  void selectMode(long oldMill = 0){
+    while (!digitalRead(pinButton)){
+      if (millis() - oldMill >= 250){       
+        modeBacklight = 0;
+        setSmooBrigth(brigthness + 100, 5);
+        setSmooBrigth(0);
+        return;
+      }
+    }
     if (modeBacklight >= 2){
       modeBacklight = 0;
       Serial.println(modeBacklight);
       //return;
     }else modeBacklight++;
     Serial.println(modeBacklight);
-    while (!digitalRead(pinButton)){
       if (modeBacklight == 0) setSmooBrigth(0);
       if (modeBacklight == 1) setSmooBrigth(150, 10);
       if (modeBacklight == 2) setSmooBrigth(20, 20);
-      }
-    delay(50);
+    //delay(50);
   }
 };
 void setup() {
@@ -47,11 +53,16 @@ void setup() {
 }
 Control myLed(11, 10);
 int firstMillis = 0;
-bool flag = false;
+
 std::vector<int> myVec(20);
 int count = 0;
 void loop() {
-    if (!digitalRead(10)){
-      myLed.selectMode();
-    }  
+  long count1 = millis();
+  if (!digitalRead(10) && !flag){
+    myLed.selectMode(count1);
+    flag = true;
+  }
+  if (digitalRead(10) && flag){
+    flag = false;
+  }
 }
