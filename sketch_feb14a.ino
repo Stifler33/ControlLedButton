@@ -53,28 +53,5 @@ int count = 0;
 void loop() {
     if (!digitalRead(10)){
       myLed.selectMode();
-    }
-  
- /*
-  if (!digitalRead(10) && !flag){
-    firstMillis = millis();
-    flag = true;
-  }
-  if (digitalRead(10) && flag){
-    int result = millis() - firstMillis;
-    myVec[count++] = result;
-    if (count > (myVec.size() - 1)) count = 0;
-    int average = 0;
-    for (auto i : myVec){
-      average += i;
-    }
-    average /= myVec.size();
-    Serial.println(average);
-    //Serial.println(result);
-    flag = false;
-  }
-  */
-  //myLed.setBrigth(50);
-  // put your main code here, to run repeatedly:
-  
+    }  
 }
