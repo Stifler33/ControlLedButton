@@ -9,7 +9,6 @@ class Control
  public:
   Control(int _pinLed, int _pinButton, int _bright = 0): pinLed(_pinLed), brigthness(_bright), pinButton(_pinButton)
   {
-   //pinMode(pinLed, INPUT);
    pinMode(pinButton, INPUT);
   }
   void setBrigth(int brigth){
