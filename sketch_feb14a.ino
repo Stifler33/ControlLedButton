@@ -52,8 +52,6 @@ void setup() {
 }
 Control myLed(11, 10);
 int firstMillis = 0;
-
-std::vector<int> myVec(20);
 int count = 0;
 void loop() {
   long count1 = millis();
